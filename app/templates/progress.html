@@ -26,15 +26,43 @@
     <template x-if="status === 'completed'">
       <div class="space-y-6 text-left">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b pb-4 mb-4 border-gray-200 dark:border-gray-700 gap-4">
-          <h2 class="text-2xl font-semibold text-green-600 dark:text-green-400 flex items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-            Transcription Completed!
-          </h2>
+          <div>
+            <h2 class="text-2xl font-semibold text-green-600 dark:text-green-400 flex items-center gap-2">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Transcription Completed!
+            </h2>
+            <!-- Language badge -->
+            <template x-if="result.language">
+              <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Detected language: <span class="font-medium text-gray-700 dark:text-gray-300 uppercase" x-text="result.language"></span>
+              </p>
+            </template>
+          </div>
           <a :href="`/download/${result.filename}`" class="btn btn-primary text-sm w-full sm:w-auto text-center">Download File (.txt)</a>
         </div>
-        
-        <div class="bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-200 dark:border-gray-700 font-mono text-sm whitespace-pre-wrap max-h-[60vh] overflow-y-auto text-gray-800 dark:text-gray-300"
-             x-text="result.text"></div>
+
+        <!-- Segment view (timestamped) — shown when segments exist -->
+        <template x-if="result.segments && result.segments.length > 0">
+          <div>
+            <p class="text-xs font-semibold text-gray-400 dark:text-white uppercase tracking-widest mb-3">
+              Transcript — <span x-text="result.segments.length"></span> segments
+            </p>
+            <div class="bg-gray-50 dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 font-mono text-sm max-h-[60vh] overflow-y-auto divide-y divide-gray-100 dark:divide-gray-800">
+              <template x-for="(seg, i) in result.segments" :key="i">
+                <div class="flex gap-3 px-4 py-2.5 hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-colors">
+                  <span class="shrink-0 text-xs text-primary font-semibold w-20 pt-0.5 select-none" x-text="`[${seg.time}]`"></span>
+                  <span class="text-gray-800 dark:text-white break-words" x-text="seg.text"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </template>
+
+        <!-- Plain-text fallback (shown only when no segments returned) -->
+        <template x-if="!result.segments || result.segments.length === 0">
+          <div class="bg-gray-50 dark:bg-gray-900 p-4 sm:p-6 rounded-xl border border-gray-200 dark:border-gray-700 font-mono text-sm whitespace-pre-wrap max-h-[60vh] overflow-y-auto text-gray-800 dark:text-white"
+               x-text="result.text"></div>
+        </template>
              
         <div class="text-center pt-4">
           <a href="/" class="text-primary hover:text-secondary font-medium transition-colors hover:underline">Transcribe another file</a>

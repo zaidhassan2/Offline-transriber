@@ -5,32 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ theme and theme.primary and 'Transcriber' or 'Transcriber' }}</title>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: 'var(--color-primary)',
-            secondary: 'var(--color-secondary)',
-            accent: 'var(--color-accent)',
-          },
-          animation: {
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'gradient': 'gradient 15s ease infinite',
-          },
-          keyframes: {
-            gradient: {
-              '0%, 100%': { backgroundPosition: '0% 50%' },
-              '50%': { backgroundPosition: '100% 50%' },
-            }
-          }
-        }
-      }
-    }
-  </script>
+  <script defer src="{{ url_for('static', path='js/alpinejs.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', path='css/tailwind.css') }}">
+
   <style>
     :root { 
       --color-primary: {{ theme.primary }}; 
@@ -92,13 +69,13 @@
   </main>
 
   <footer class="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 mt-auto">
-    <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-500 dark:text-gray-400">
+    <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600 dark:text-white">
       <div class="flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-        <span>© {{ 2025 }} Transcriber | <a href="https://github.com/Br3n0k/transcriber" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">Project Open Source</a></span>
+        <span>© {{ 2026 }} Transcriber | <a href="https://github.com/Br3n0k/transcriber" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">GitHub Repository</a></span>
       </div>
       <div>
-        Developed by <a href="https://github.com/Br3n0k" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">Brendown Ferreira</a>
+        Developed by <a href="https://zaidhassan.me" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">Zaid Hassan</a>
       </div>
     </div>
   </footer>

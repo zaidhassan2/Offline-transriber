@@ -2,7 +2,7 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/Docker-ready-2496ED.svg)](https://www.docker.com/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/Br3n0k/transcriber/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/zaidhassan2/Offline-transriber/pulls)
 ---
 
 # Transcriber  
@@ -10,11 +10,13 @@
 **AI transcription without the cloud.**  
 An open-source, **privacy-first** web application powered by **OpenAI Whisper** and **FastAPI**. Transcribe YouTube videos or local audio/video files instantly on your machine — no data leaks, no subscription fees.
 
-Developed by [Brendown Ferreira](https://github.com/Br3n0k).
+Developed by [Zaid Hassan](https://zaidhassan.me).
 
 Built with **FastAPI**, **WebSockets**, **Alpine.js**, and **Tailwind CSS** for a modern, real-time experience.
 
 ![Preview](./preview.png)
+
+**Keywords:** AI transcription, speech-to-text, YouTube transcription, offline transcription, Whisper AI, voice recognition, audio transcription, video transcription, privacy-first AI, local AI, open source transcription
 
 ---
 
@@ -198,5 +200,32 @@ Feel free to open an issue or submit a PR.
 ## 📜 License
 
 Distributed under the MIT License. See [LICENSE](./LICENSE) for more information.
+
+---
+
+## 🔍 SEO & Discovery
+
+This project is optimized for search engines with relevant keywords:
+- AI transcription
+- Speech-to-text
+- YouTube transcription
+- Offline transcription
+- Whisper AI
+- Voice recognition
+- Audio transcription
+- Video transcription
+- Privacy-first AI
+- Local AI processing
+- Open source transcription
+- Real-time transcription
+- GPU-accelerated transcription
+
+## 🌐 Live Demo
+
+Try the live version at: [https://transcriber.zaidhassan.me](https://transcriber.zaidhassan.me)
+
+## 📧 Contact
+
+For questions or support, visit [zaidhassan.me](https://zaidhassan.me) or open an issue on GitHub.
 
 ---

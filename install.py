@@ -5,7 +5,7 @@ import shutil
 from pathlib import Path
 
 def setup_ffmpeg():
-    print("\n[3/3] Setting up FFmpeg locally...")
+    print("\n[3/4] Setting up FFmpeg locally...")
     try:
         import imageio_ffmpeg
     except ImportError:
@@ -40,13 +40,64 @@ def setup_ffmpeg():
     except Exception as e:
         print(f"      ❌ Error copying FFmpeg: {e}")
 
+
+def predownload_models():
+    """Pre-download Whisper model weights so that the first transcription job
+    is fully offline. Both openai-whisper and faster-whisper caches are populated.
+    
+    Cache locations:
+      - openai-whisper : ~/.cache/whisper/<model>.pt
+      - faster-whisper : ~/.cache/huggingface/hub/models--Systran--faster-whisper-<model>/
+    """
+    # Read the default model from .env if present, otherwise use 'base'.
+    model_name = os.getenv("WHISPER_MODEL", "base")
+    print(f"\n[4/4] Pre-downloading Whisper model weights (model='{model_name}')...")
+    print("      This downloads model weights so transcription can run fully offline.")
+    print("      Weights are cached and will NOT be re-downloaded on subsequent runs.")
+
+    # --- openai-whisper ---
+    try:
+        import whisper  # type: ignore
+        cache_dir = Path.home() / ".cache" / "whisper"
+        cached_file = cache_dir / f"{model_name}.pt"
+        if cached_file.exists():
+            print(f"      ✅ openai-whisper: '{model_name}' already cached at {cached_file}")
+        else:
+            print(f"      ⬇  openai-whisper: downloading '{model_name}'…")
+            whisper.load_model(model_name)
+            print(f"      ✅ openai-whisper: '{model_name}' downloaded successfully.")
+    except ImportError:
+        print("      ℹ️  openai-whisper not installed — skipping its cache population.")
+    except Exception as e:
+        print(f"      ⚠️  openai-whisper download failed (non-fatal): {e}")
+
+    # --- faster-whisper ---
+    try:
+        from faster_whisper import WhisperModel  # type: ignore
+        # Check if already cached by looking for the huggingface hub directory
+        hf_cache = Path.home() / ".cache" / "huggingface" / "hub"
+        # faster-whisper stores as: models--Systran--faster-whisper-<name>
+        cached_dir = hf_cache / f"models--Systran--faster-whisper-{model_name}"
+        if cached_dir.exists():
+            print(f"      ✅ faster-whisper: '{model_name}' already cached at {cached_dir}")
+        else:
+            print(f"      ⬇  faster-whisper: downloading '{model_name}' (CPU/int8)…")
+            # Download using CPU so no GPU is required at install time
+            WhisperModel(model_name, device="cpu", compute_type="int8")
+            print(f"      ✅ faster-whisper: '{model_name}' downloaded successfully.")
+    except ImportError:
+        print("      ℹ️  faster-whisper not installed — skipping its cache population.")
+    except Exception as e:
+        print(f"      ⚠️  faster-whisper download failed (non-fatal): {e}")
+
+
 def install():
     print("=" * 40)
     print("    Transcriber - Installation Setup")
     print("=" * 40)
     
     # 1. Install PyTorch with CUDA
-    print("\n[1/3] Installing PyTorch with GPU (CUDA) support...")
+    print("\n[1/4] Installing PyTorch with GPU (CUDA) support...")
     print("      This might take a few minutes depending on your internet connection.")
     
     urls = [
@@ -81,7 +132,7 @@ def install():
         subprocess.run([sys.executable, "-m", "pip", "install", "torch", "torchvision", "torchaudio"])
 
     # 2. Install project dependencies
-    print("\n[2/3] Installing project dependencies...")
+    print("\n[2/4] Installing project dependencies...")
     req_path = os.path.join(os.path.dirname(__file__), "requirements.txt")
     
     if os.path.exists(req_path):
@@ -97,6 +148,9 @@ def install():
 
     # 3. Setup FFmpeg
     setup_ffmpeg()
+
+    # 4. Pre-download model weights (so first transcription is fully offline)
+    predownload_models()
     
     print("\n✅ Setup Complete!")
     print("\nTo start the application, run:")
