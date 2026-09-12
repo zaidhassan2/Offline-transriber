@@ -43,32 +43,37 @@ def download_from_youtube(url: str, audio_only: bool = True) -> Path:
             logger.info(f"Iniciando download do YouTube: {url}")
             # extract_info com download=True baixa e retorna metadados
             info = ydl.extract_info(url, download=True)
-            
+
+            if info is None:
+                raise RuntimeError("YouTube extraction returned None - video may be unavailable or restricted")
+
             # prepare_filename retorna o nome esperado do arquivo
             # Nota: se o yt-dlp fizer merge (video+audio) ou converter, o nome final pode mudar.
             # Mas como estamos pedindo bestaudio[ext=m4a], geralmente é direto.
             # Se for playlist, info é uma lista, mas aqui assumimos vídeo único ou pegamos o primeiro.
-            
+
             if 'entries' in info:
                 # É uma playlist ou resultado de busca
                 info = info['entries'][0]
-            
+
             filename = ydl.prepare_filename(info)
             path = Path(filename)
-            
+
             if not path.exists():
                 # Às vezes o yt-dlp muda a extensão se fizer pós-processamento não solicitado
                 # Tentar encontrar arquivo com mesmo stem
                 candidates = list(out_dir.glob(f"{path.stem}.*"))
                 if candidates:
                     path = candidates[0]
-            
+                else:
+                    raise RuntimeError(f"Downloaded file not found: {filename}")
+
             logger.info(f"Download concluído: {path}")
-            
+
             # Sanitize the filename to remove accents and spaces
             safe_filename = sanitize_filename(path.name)
             safe_path = path.with_name(safe_filename)
-            
+
             if safe_path != path:
                 # If target exists, we might overwrite or fail.
                 # Since we have ID in filename, collision implies same video.
@@ -76,7 +81,7 @@ def download_from_youtube(url: str, audio_only: bool = True) -> Path:
                 path.replace(safe_path)
                 logger.info(f"Arquivo renomeado para: {safe_path}")
                 return safe_path
-            
+
             return path
             
     except Exception as e:
