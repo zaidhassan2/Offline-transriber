@@ -4,7 +4,61 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ theme and theme.primary and 'Transcriber' or 'Transcriber' }}</title>
+  <title>Transcriber - Free AI Speech to Text | YouTube & Audio Transcription</title>
+  <meta name="description" content="Free AI-powered transcription tool. Convert YouTube videos and audio files to text instantly using OpenAI Whisper. Privacy-first, offline processing, no data leaks.">
+  <meta name="keywords" content="AI transcription, speech to text, YouTube transcription, audio transcription, video transcription, Whisper AI, voice recognition, offline transcription, privacy-first AI, local AI, open source transcription, real-time transcription">
+  <meta name="author" content="Zaid Hassan">
+  <meta name="robots" content="index, follow">
+  <meta name="googlebot" content="index, follow">
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://transcriber.zaidhassan.me/">
+  <meta property="og:title" content="Transcriber - AI Speech to Text | YouTube & Audio Transcription">
+  <meta property="og:description" content="Free AI-powered transcription tool. Convert YouTube videos and audio files to text instantly using OpenAI Whisper. Privacy-first, offline processing.">
+  <meta property="og:image" content="https://transcriber.zaidhassan.me/preview.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://transcriber.zaidhassan.me/">
+  <meta property="twitter:title" content="Transcriber - AI Speech to Text | YouTube & Audio Transcription">
+  <meta property="twitter:description" content="Free AI-powered transcription tool. Convert YouTube videos and audio files to text instantly using OpenAI Whisper. Privacy-first, offline processing.">
+  <meta property="twitter:image" content="https://transcriber.zaidhassan.me/preview.png">
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://transcriber.zaidhassan.me/">
+
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Transcriber",
+    "description": "Free AI-powered transcription tool. Convert YouTube videos and audio files to text instantly using OpenAI Whisper. Privacy-first, offline processing.",
+    "url": "https://transcriber.zaidhassan.me",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Person",
+      "name": "Zaid Hassan",
+      "url": "https://zaidhassan.me"
+    },
+    "featureList": [
+      "YouTube video transcription",
+      "Audio file transcription",
+      "Real-time progress tracking",
+      "Offline processing",
+      "Privacy-first design",
+      "GPU acceleration support"
+    ]
+  }
+  </script>
+
   <script defer src="{{ url_for('static', path='js/alpinejs.min.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', path='css/tailwind.css') }}">
 
@@ -72,7 +126,7 @@
     <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-gray-600 dark:text-white">
       <div class="flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
-        <span>© {{ 2026 }} Transcriber | <a href="https://github.com/Br3n0k/transcriber" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">GitHub Repository</a></span>
+        <span>© {{ 2026 }} Transcriber | <a href="https://github.com/zaidhassan2/Offline-transriber" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">GitHub Repository</a></span>
       </div>
       <div>
         Developed by <a href="https://zaidhassan.me" target="_blank" rel="noopener" class="font-medium text-primary hover:underline">Zaid Hassan</a>
