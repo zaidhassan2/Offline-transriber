@@ -1,15 +1,14 @@
 {
   "version": 2,
-  "builds": [
+  "buildCommand": "pip install -r requirements.txt",
+  "devCommand": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+  "installCommand": "pip install -r requirements.txt",
+  "outputDirectory": "app",
+  "framework": null,
+  "rewrites": [
     {
-      "src": "app/main.py",
-      "use": "@vercel/python"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "app/main.py"
+      "source": "/(.*)",
+      "destination": "/app/main.py"
     }
   ],
   "env": {
