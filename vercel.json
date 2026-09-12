@@ -14,10 +14,5 @@
   "env": {
     "WHISPER_MODEL": "tiny",
     "TRANSCRIPTION_DEVICE": "cpu"
-  },
-  "functions": {
-    "app/main.py": {
-      "maxDuration": 60
-    }
   }
 }
