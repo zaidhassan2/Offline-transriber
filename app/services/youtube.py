@@ -3,6 +3,7 @@ from pathlib import Path
 import logging
 from typing import Literal, Optional
 import yt_dlp
+import os
 
 from ..core.config import settings
 from .file_manager import sanitize_filename
@@ -21,8 +22,20 @@ def download_from_youtube(url: str, audio_only: bool = True) -> Path:
         'outtmpl': out_tmpl,
         'quiet': True,
         'no_warnings': True,
-        # Prefer audio-only stream in m4a if available, else bestaudio.
-        'format': 'bestaudio[ext=m4a]/bestaudio' if audio_only else 'bestvideo+bestaudio/best',
+        # Use simpler format selection to avoid complex extraction
+        'format': 'bestaudio/best' if audio_only else 'best',
+        # Add options to bypass YouTube restrictions
+        'nocheckcertificate': True,
+        'ignoreerrors': True,
+        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'referer': 'https://www.youtube.com/',
+        'extract_flat': False,
+        'fragment_retries': 10,
+        'retryfragments': 10,
+        'no_cookies': True,
+        'download_archive': None,
+        'overwrites': True,
+        'http_chunk_size': 10485760,
     }
 
     try:
