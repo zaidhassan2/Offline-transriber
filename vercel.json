@@ -13,7 +13,12 @@
     }
   ],
   "env": {
-    "WHISPER_MODEL": "base",
-    "TRANSCRIPTION_DEVICE": "auto"
+    "WHISPER_MODEL": "tiny",
+    "TRANSCRIPTION_DEVICE": "cpu"
+  },
+  "functions": {
+    "app/main.py": {
+      "maxDuration": 60
+    }
   }
 }
