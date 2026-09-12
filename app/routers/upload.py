@@ -118,17 +118,25 @@ async def process_transcription(task_id: str, media_path: Path, original_filenam
 @router.post("/youtube", response_class=HTMLResponse)
 async def transcribe_youtube(request: Request, background_tasks: BackgroundTasks, url: str = Form(...)):
     try:
-        # Download síncrono, mas rápido o suficiente para esperar antes de mostrar progresso
-        media_path = await asyncio.to_thread(download_from_youtube, url)
-        
         task_id = str(uuid.uuid4())
         await progress_manager.create_task(task_id)
-        
+
+        # Update progress to show download started
+        await progress_manager.update_progress(task_id, 5, "Downloading from YouTube...")
+
+        # Download síncrono, mas rápido o suficiente para esperar antes de mostrar progresso
+        media_path = await asyncio.to_thread(download_from_youtube, url)
+
+        # Update progress to show download completed
+        await progress_manager.update_progress(task_id, 10, f"Downloaded: {media_path.name}")
+
         background_tasks.add_task(process_transcription, task_id, media_path, media_path.name)
-        
+
         return templates.TemplateResponse(request=request, name="progress.html", context={"task_id": task_id})
-        
+
     except Exception as e:
+        logger.error(f"YouTube download failed: {e}")
+        await progress_manager.fail_task(task_id, f"YouTube download failed: {str(e)}")
         raise HTTPException(status_code=400, detail=str(e))
 
 
@@ -141,6 +149,9 @@ async def transcribe_upload(request: Request, background_tasks: BackgroundTasks,
         task_id = str(uuid.uuid4())
         await progress_manager.create_task(task_id)
 
+        # Update progress to show upload started
+        await progress_manager.update_progress(task_id, 5, f"Uploading {file.filename}...")
+
         # Salvar arquivo temporário (sanitizando o nome para evitar problemas com ffmpeg)
         safe_filename = sanitize_filename(file.filename)
         temp_path = Path(settings.storage_uploads) / f"{task_id}_{safe_filename}"
@@ -151,6 +162,9 @@ async def transcribe_upload(request: Request, background_tasks: BackgroundTasks,
 
         logger.info(f"File uploaded successfully: {file.filename} -> {temp_path}")
 
+        # Update progress to show upload completed
+        await progress_manager.update_progress(task_id, 10, f"File uploaded: {file.filename}")
+
         # Iniciar background task
         background_tasks.add_task(process_transcription, task_id, temp_path, file.filename)
 
@@ -160,4 +174,5 @@ async def transcribe_upload(request: Request, background_tasks: BackgroundTasks,
         raise
     except Exception as e:
         logger.error(f"Upload failed for {file.filename}: {e}")
+        await progress_manager.fail_task(task_id, f"Upload failed: {str(e)}")
         raise HTTPException(status_code=400, detail=f"Upload failed: {str(e)}")

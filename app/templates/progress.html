@@ -7,17 +7,20 @@
     <!-- State: Processing -->
     <template x-if="status !== 'completed' && status !== 'failed'">
       <div class="space-y-6">
-        <h2 class="text-2xl font-bold animate-pulse text-gray-900 dark:text-gray-100" x-text="message || 'Starting...'"></h2>
-        
+        <h2 class="text-2xl font-bold animate-pulse text-gray-900 dark:text-gray-100" x-text="message || 'Initializing transcription...'"></h2>
+
         <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden shadow-inner">
           <div class="bg-primary h-4 rounded-full transition-all duration-300 ease-out"
                :style="`width: ${progress}%`"></div>
         </div>
-        
+
         <p class="text-gray-500 dark:text-gray-400 font-mono" x-text="`${progress}%`"></p>
-        
+
         <div class="text-sm text-gray-400 mt-4">
-          Task ID: <span class="font-mono text-xs select-all bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded" x-text="taskId"></span>
+          <div class="flex flex-col gap-2">
+            <div>Status: <span class="font-medium text-gray-600 dark:text-gray-300" x-text="status || 'connecting'"></span></div>
+            <div>Task ID: <span class="font-mono text-xs select-all bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded" x-text="taskId"></span></div>
+          </div>
         </div>
       </div>
     </template>
