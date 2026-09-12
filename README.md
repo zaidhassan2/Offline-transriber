@@ -173,16 +173,6 @@ pytest
 
 ---
 
-## 🤝 Contributing
-
-We love open source! 💜  
-Feel free to open an issue or submit a PR.
-
-1. Fork the repo.
-2. Create a branch: `git checkout -b feature/amazing-idea`.
-3. Commit changes: `git commit -m 'Add amazing idea'`.
-4. Push to branch: `git push origin feature/amazing-idea`.
-5. Open a Pull Request.
 
 ---
 
